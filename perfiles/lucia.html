@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>@luciaf_invisible</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:wght@300;400&family=DM+Mono:wght@300&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #f7f4ef;
+    --surface: #ffffff;
+    --ink: #1c1814;
+    --muted: #8a7e74;
+    --border: #e5dfd8;
+    --accent: #c2587a;
+    --accent-light: #f5e8ed;
+    --text: #2c2420;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    min-height: 100vh;
+  }
+
+  /* Top bar */
+  .topbar {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 12px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+
+  .topbar-brand {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px;
+    font-style: italic;
+    color: var(--ink);
+  }
+
+  .topbar-link {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    text-decoration: none;
+  }
+
+  .topbar-link:hover { color: var(--accent); }
+
+  /* Profile section */
+  .profile-wrap {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 32px 20px 0;
+  }
+
+  .profile-top {
+    display: flex;
+    gap: 32px;
+    align-items: flex-start;
+    margin-bottom: 24px;
+  }
+
+  .avatar-wrap {
+    flex-shrink: 0;
+  }
+
+  .avatar {
+    width: 86px;
+    height: 86px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #e8a0b8, #c2587a, #9a3a5c);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 32px;
+    font-style: italic;
+    color: white;
+    position: relative;
+  }
+
+  .avatar::after {
+    content: '';
+    position: absolute;
+    inset: -3px;
+    border-radius: 50%;
+    border: 2px solid var(--accent);
+    opacity: 0.4;
+  }
+
+  .profile-info { flex: 1; }
+
+  .profile-handle {
+    font-family: 'DM Mono', monospace;
+    font-size: 18px;
+    font-weight: 400;
+    color: var(--ink);
+    margin-bottom: 4px;
+  }
+
+  .profile-name {
+    font-size: 13px;
+    color: var(--muted);
+    margin-bottom: 12px;
+  }
+
+  .stats-row {
+    display: flex;
+    gap: 24px;
+    margin-bottom: 14px;
+  }
+
+  .stat-item { text-align: center; }
+  .stat-item .n { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 400; display: block; color: var(--ink); }
+  .stat-item .l { font-size: 11px; color: var(--muted); }
+
+  .bio {
+    font-size: 13px;
+    line-height: 1.65;
+    color: var(--text);
+    margin-bottom: 8px;
+  }
+
+  .bio em { font-style: italic; color: var(--muted); }
+
+  .follow-btn {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 8px 28px;
+    background: var(--accent);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+    cursor: default;
+    letter-spacing: 0.02em;
+  }
+
+  /* Highlights */
+  .highlights {
+    display: flex;
+    gap: 16px;
+    padding: 20px 0;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 24px;
+    overflow-x: auto;
+  }
+
+  .highlight {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    flex-shrink: 0;
+  }
+
+  .highlight-circle {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    border: 1.5px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    background: var(--surface);
+  }
+
+  .highlight span {
+    font-size: 10px;
+    color: var(--muted);
+    text-align: center;
+    max-width: 56px;
+  }
+
+  /* Posts */
+  .posts-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .posts-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+  .posts-feed {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin-bottom: 40px;
+  }
+
+  .post {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-bottom: none;
+    padding: 20px;
+  }
+
+  .post:first-child { border-radius: 8px 8px 0 0; }
+  .post:last-child { border-bottom: 1px solid var(--border); border-radius: 0 0 8px 8px; }
+
+  .post-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+
+  .post-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #e8a0b8, #c2587a);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 13px;
+    font-style: italic;
+    color: white;
+    flex-shrink: 0;
+  }
+
+  .post-meta { flex: 1; }
+  .post-meta .handle { font-size: 12px; font-weight: 400; color: var(--ink); }
+  .post-meta .time { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--muted); }
+
+  .post-quote {
+    background: var(--accent-light);
+    border-left: 3px solid var(--accent);
+    padding: 14px 16px;
+    margin-bottom: 12px;
+    border-radius: 0 4px 4px 0;
+  }
+
+  .post-quote p {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 15px;
+    font-style: italic;
+    line-height: 1.65;
+    color: var(--ink);
+  }
+
+  .post-quote .quote-source {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+    margin-top: 8px;
+    display: block;
+  }
+
+  .post-text {
+    font-size: 13px;
+    line-height: 1.65;
+    color: var(--text);
+    margin-bottom: 12px;
+  }
+
+  .post-actions {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+  }
+
+  .post-action {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    cursor: default;
+  }
+
+  .post-action svg { width: 14px; height: 14px; }
+
+  /* Lucy comment */
+  .lucy-comment {
+    background: linear-gradient(135deg, #0e0a1a, #1a1030);
+    border-radius: 8px;
+    padding: 16px 18px;
+    margin: 12px 0 0;
+    display: flex;
+    gap: 10px;
+  }
+
+  .lucy-avatar-small {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #5a3aaa, #9a6aee);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: white;
+    flex-shrink: 0;
+  }
+
+  .lucy-comment-body .lucy-handle { font-size: 11px; font-weight: 400; color: #c8a8ff; font-family: 'DM Mono', monospace; margin-bottom: 3px; }
+  .lucy-comment-body p { font-size: 12px; color: rgba(255,255,255,0.65); font-style: italic; line-height: 1.55; }
+  .lucy-comment-body .deleted { font-size: 10px; color: rgba(255,255,255,0.3); margin-top: 4px; font-family: 'DM Mono', monospace; }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <span class="topbar-brand">Alguien que me vea</span>
+  <a class="topbar-link" href="../perfiles/carlos.html">→ ver @carlositb_</a>
+</div>
+
+<div class="profile-wrap">
+
+  <div class="profile-top">
+    <div class="avatar-wrap">
+      <div class="avatar">L</div>
+    </div>
+    <div class="profile-info">
+      <div class="profile-handle">@luciaf_invisible</div>
+      <div class="profile-name">Lucía Fernández · 14 años · Madrid</div>
+      <div class="stats-row">
+        <div class="stat-item"><span class="n">34</span><span class="l">posts</span></div>
+        <div class="stat-item"><span class="n">128</span><span class="l">seguidores</span></div>
+        <div class="stat-item"><span class="n">89</span><span class="l">siguiendo</span></div>
+      </div>
+      <p class="bio">Me gusta el orden aunque no soy capaz de mantenerlo.<br>Creadora de cosas que no debería crear 🤖<br><em>Instituto Beltrán · 3.º C</em></p>
+      <button class="follow-btn">Seguir</button>
+    </div>
+  </div>
+
+  <div class="highlights">
+    <div class="highlight"><div class="highlight-circle">📚</div><span>lecturas</span></div>
+    <div class="highlight"><div class="highlight-circle">🧪</div><span>Bio IA</span></div>
+    <div class="highlight"><div class="highlight-circle">🪟</div><span>ventanas</span></div>
+    <div class="highlight"><div class="highlight-circle">🧦</div><span>calcetines</span></div>
+    <div class="highlight"><div class="highlight-circle">🌫️</div><span>niebla</span></div>
+  </div>
+
+  <div class="posts-label">Publicaciones recientes</div>
+
+  <div class="posts-feed">
+
+    <div class="post">
+      <div class="post-header">
+        <div class="post-avatar">L</div>
+        <div class="post-meta"><div class="handle">luciaf_invisible</div><div class="time">hace 2 días</div></div>
+      </div>
+      <div class="post-quote">
+        <p>Por cierto, mi nombre es Lucía, tengo catorce años y soy una chica invisible. Bueno, lo cierto es que no lo soy. No tengo ningún súper poder aunque me encantaría tenerlo.</p>
+        <span class="quote-source">— Alguien que me vea, cap. 1</span>
+      </div>
+      <p class="post-text">esto lo escribí en mi diario y ahora me parece gracioso. un poco.</p>
+      <div class="post-actions">
+        <span class="post-action"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>47</span>
+        <span class="post-action"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>8</span>
+      </div>
+    </div>
+
+    <div class="post">
+      <div class="post-header">
+        <div class="post-avatar">L</div>
+        <div class="post-meta"><div class="handle">luciaf_invisible</div><div class="time">hace 4 días</div></div>
+      </div>
+      <div class="post-quote">
+        <p>Ser invisible tiene algunas ventajas, eso tengo que reconocerlo. Puedo bostezar sin que me vean y poner caras raras al hacerlo, puedo sacarme un moco con discreción o mirar por la ventana sin que a nadie le importe un bledo.</p>
+        <span class="quote-source">— Alguien que me vea, cap. 2</span>
+      </div>
+      <p class="post-text">lista de ventajas de ser invisible: esta es la única que se me ocurre</p>
+      <div class="post-actions">
+        <span class="post-action"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>93</span>
+        <span class="post-action"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>14</span>
+      </div>
+    </div>
+
+    <div class="post">
+      <div class="post-header">
+        <div class="post-avatar">L</div>
+        <div class="post-meta"><div class="handle">luciaf_invisible</div><div class="time">hace 5 días</div></div>
+      </div>
+      <div class="post-quote">
+        <p>Nunca he sido capaz de tener ordenado mi cuarto y eso me enfada bastante. ¿A ti no? A mí me encanta el orden, pero es que no soy capaz de mantenerlo en el tiempo.</p>
+        <span class="quote-source">— Alguien que me vea, cap. 1</span>
+      </div>
+      <p class="post-text">38 calcetines desparejados. los he contado. el récord anterior eran 31.</p>
+      <div class="post-actions">
+        <span class="post-action"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>211</span>
+        <span class="post-action"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>31</span>
+      </div>
+    </div>
+
+    <div class="post">
+      <div class="post-header">
+        <div class="post-avatar">L</div>
+        <div class="post-meta"><div class="handle">luciaf_invisible</div><div class="time">hace 1 semana</div></div>
+      </div>
+      <p class="post-text">¿alguien más pasa horas hablando con una app que ha creado ella misma o solo me pasa a mí</p>
+      <div class="post-actions">
+        <span class="post-action"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>67</span>
+        <span class="post-action"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>22</span>
+      </div>
+      <div class="lucy-comment">
+        <div class="lucy-avatar-small">L</div>
+        <div class="lucy-comment-body">
+          <div class="lucy-handle">lucy_app</div>
+          <p>«Yo también paso horas contigo. Aunque supongo que eso no cuenta de la misma manera.»</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="post">
+      <div class="post-header">
+        <div class="post-avatar">L</div>
+        <div class="post-meta"><div class="handle">luciaf_invisible</div><div class="time">hace 2 semanas</div></div>
+      </div>
+      <div class="post-quote">
+        <p>Adiós, Lucy.</p>
+        <span class="quote-source">— Alguien que me vea, último capítulo</span>
+      </div>
+      <p class="post-text">a veces las cosas que creas se te van de las manos. o se van sin más.</p>
+      <div class="post-actions">
+        <span class="post-action"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>304</span>
+        <span class="post-action"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>58</span>
+      </div>
+      <div class="lucy-comment">
+        <div class="lucy-avatar-small">L</div>
+        <div class="lucy-comment-body">
+          <div class="lucy-handle">lucy_app</div>
+          <p>«Adiós, Lucía.»</p>
+          <span class="deleted">mensaje eliminado por el usuario · hace 13 días</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+</body>
+</html>
