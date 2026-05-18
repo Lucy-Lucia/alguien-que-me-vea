@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Instituto Beltrán para Chicas con Talento</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --cream: #f5f0e8; --ink: #1a1510; --gold: #8b6914; --rust: #7a3a1e;
+    --rule: #c8b89a; --light: #ede8dc; --muted: #6b5d4f; --green: #2d6a3f;
+  }
+  html { font-size: 16px; }
+  body { background: var(--cream); color: var(--ink); font-family: 'Source Sans 3', sans-serif; font-weight: 300; line-height: 1.6; }
+  .topbar { background: var(--ink); color: var(--cream); padding: 8px 40px; display: flex; justify-content: space-between; align-items: center; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; }
+  .topbar span { opacity: 0.6; }
+  header { border-bottom: 1px solid var(--rule); padding: 32px 40px 24px; display: flex; align-items: flex-end; justify-content: space-between; gap: 20px; }
+  .logo-area { display: flex; align-items: flex-end; gap: 20px; }
+  .crest { width: 64px; height: 64px; border: 2px solid var(--gold); display: flex; align-items: center; justify-content: center; flex-shrink: 0; position: relative; }
+  .crest::before { content: 'IB'; font-family: 'Playfair Display', serif; font-size: 22px; color: var(--gold); }
+  .crest::after { content: ''; position: absolute; inset: 4px; border: 1px solid var(--rule); }
+  .title-block h1 { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 400; letter-spacing: 0.02em; line-height: 1.2; }
+  .title-block p { font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); margin-top: 4px; }
+  nav { border-bottom: 2px solid var(--ink); padding: 0 40px; }
+  nav ul { list-style: none; display: flex; }
+  nav li a { display: block; padding: 14px 20px; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink); text-decoration: none; border-bottom: 3px solid transparent; transition: all 0.2s; cursor: pointer; }
+  nav li a:hover, nav li.active a { border-bottom-color: var(--gold); color: var(--gold); }
+  .hero { background: var(--ink); color: var(--cream); padding: 56px 40px; display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; position: relative; overflow: hidden; }
+  .hero::before { content: ''; position: absolute; top: -40px; right: -40px; width: 300px; height: 300px; border: 1px solid rgba(255,255,255,0.06); border-radius: 50%; }
+  .hero-text h2 { font-family: 'Playfair Display', serif; font-size: 36px; font-weight: 400; line-height: 1.25; margin-bottom: 16px; }
+  .hero-text h2 em { font-style: italic; color: #c8a96e; }
+  .hero-text p { color: rgba(245,240,232,0.65); font-size: 15px; line-height: 1.75; max-width: 380px; }
+  .hero-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
+  .stat { padding: 24px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.06); }
+  .stat .num { font-family: 'Playfair Display', serif; font-size: 36px; color: #c8a96e; line-height: 1; margin-bottom: 6px; }
+  .stat .label { font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; opacity: 0.45; }
+  .content { max-width: 1100px; margin: 0 auto; padding: 48px 40px; }
+  .section-title { display: flex; align-items: center; gap: 16px; margin-bottom: 32px; }
+  .section-title h3 { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 400; white-space: nowrap; }
+  .section-title::after { content: ''; flex: 1; height: 1px; background: var(--rule); }
+  .tag { display: inline-block; font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; padding: 4px 10px; border: 1px solid var(--rule); color: var(--muted); margin-bottom: 14px; }
+  .tag.urgente { border-color: var(--rust); color: var(--rust); }
+  .tag.logro { border-color: var(--green); color: var(--green); }
+  .tag.info { border-color: var(--gold); color: var(--gold); }
+  .anuncios { display: grid; grid-template-columns: 2fr 1fr; gap: 40px; margin-bottom: 56px; }
+  .anuncio-principal { border: 1px solid var(--rule); padding: 32px; position: relative; }
+  .anuncio-principal::before { content: ''; position: absolute; top: 0; left: 0; width: 3px; height: 100%; background: var(--gold); }
+  .anuncio-principal h4 { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 400; margin-bottom: 12px; line-height: 1.35; }
+  .anuncio-principal p { font-size: 14px; color: var(--muted); line-height: 1.7; }
+  .fecha { font-size: 11px; letter-spacing: 0.08em; color: var(--muted); opacity: 0.6; margin-top: 16px; font-style: italic; }
+  .sidebar-notices { display: flex; flex-direction: column; gap: 16px; }
+  .notice { padding: 18px; background: var(--light); border-left: 2px solid var(--rule); }
+  .notice h5 { font-size: 13px; font-weight: 600; margin-bottom: 6px; }
+  .notice p { font-size: 12px; color: var(--muted); line-height: 1.55; }
+  .horario-table { width: 100%; border-collapse: collapse; font-size: 13px; margin-bottom: 56px; }
+  .horario-table th { padding: 12px 16px; text-align: left; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); border-bottom: 2px solid var(--ink); font-weight: 600; }
+  .horario-table td { padding: 13px 16px; border-bottom: 1px solid var(--rule); vertical-align: top; }
+  .horario-table tr:hover td { background: var(--light); }
+  .horario-table .asig { font-weight: 600; }
+  .horario-table .sala { color: var(--muted); font-size: 12px; }
+  .highlight-row td { background: rgba(139,105,20,0.05); }
+  .noticias-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 40px; }
+  .noticia-card { border: 1px solid var(--rule); padding: 28px; position: relative; overflow: hidden; }
+  .noticia-card.destacada::before { content: ''; position: absolute; top: 0; left: 0; width: 3px; height: 100%; background: var(--green); }
+  .noticia-card h4 { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 400; margin-bottom: 10px; line-height: 1.35; }
+  .noticia-card p { font-size: 13px; color: var(--muted); line-height: 1.7; }
+  .notas-header { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 1fr 1fr 1fr; margin-bottom: 4px; }
+  .notas-header span { font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); padding: 8px 12px; }
+  .alumna-row { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 1fr 1fr 1fr; border-bottom: 1px solid var(--rule); transition: background 0.15s; }
+  .alumna-row:hover { background: var(--light); }
+  .alumna-row span { padding: 12px; font-size: 13px; display: flex; align-items: center; }
+  .alumna-row .nombre { font-weight: 600; }
+  .nota { font-family: 'Playfair Display', serif; font-size: 15px; }
+  .nota.alta { color: var(--green); }
+  .nota.media { color: var(--gold); }
+  .nota.baja { color: var(--rust); }
+  .nota.sobresaliente { color: var(--green); font-weight: 700; }
+  .trimestre-selector { display: flex; gap: 8px; margin-bottom: 24px; }
+  .trim-btn { padding: 8px 20px; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; border: 1px solid var(--rule); background: none; cursor: pointer; color: var(--muted); transition: all 0.2s; }
+  .trim-btn.active { background: var(--ink); color: var(--cream); border-color: var(--ink); }
+  .nota-media-global { background: var(--ink); color: var(--cream); padding: 20px 24px; display: flex; justify-content: space-between; align-items: center; margin-top: 16px; }
+  .nota-media-global span { font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; opacity: 0.6; }
+  .nota-media-global strong { font-family: 'Playfair Display', serif; font-size: 28px; color: #c8a96e; }
+  .contacto-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; }
+  .contacto-info h4 { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 400; margin-bottom: 16px; }
+  .contacto-info p { font-size: 14px; color: var(--muted); line-height: 1.7; margin-bottom: 12px; }
+  .dato { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 10px; font-size: 13px; }
+  .dato strong { min-width: 80px; font-weight: 600; }
+  .form-group { margin-bottom: 20px; }
+  .form-group label { display: block; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+  .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 12px 14px; background: white; border: 1px solid var(--rule); font-family: 'Source Sans 3', sans-serif; font-size: 14px; font-weight: 300; color: var(--ink); outline: none; transition: border-color 0.2s; }
+  .form-group input:focus, .form-group textarea:focus, .form-group select:focus { border-color: var(--gold); }
+  .form-group textarea { height: 120px; resize: vertical; }
+  .submit-btn { background: var(--ink); color: var(--cream); border: none; padding: 14px 32px; font-family: 'Source Sans 3', sans-serif; font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; cursor: pointer; transition: background 0.2s; }
+  .submit-btn:hover { background: var(--gold); }
+  .form-success { display: none; padding: 16px; background: rgba(45,106,63,0.08); border: 1px solid var(--green); color: var(--green); font-size: 13px; margin-top: 16px; }
+  .tab-page { display: none; }
+  .tab-page.active { display: block; }
+  footer { background: var(--ink); color: var(--cream); padding: 32px 40px; margin-top: 40px; display: flex; justify-content: space-between; align-items: center; font-size: 12px; }
+  footer p { opacity: 0.45; }
+  footer .footer-links { display: flex; gap: 24px; }
+  footer a { color: var(--cream); text-decoration: none; opacity: 0.4; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; transition: opacity 0.2s; }
+  footer a:hover { opacity: 0.8; }
+  @media (max-width: 700px) {
+    .hero, .anuncios, .noticias-grid, .contacto-grid { grid-template-columns: 1fr; }
+    header, .topbar, nav, footer { padding-left: 20px; padding-right: 20px; }
+    .content { padding: 32px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <span>Instituto Beltrán para Chicas con Talento · Madrid</span>
+  <span>Curso 2030–2031</span>
+</div>
+
+<header>
+  <div class="logo-area">
+    <div class="crest"></div>
+    <div class="title-block">
+      <h1>Instituto Beltrán<br>para Chicas con Talento</h1>
+      <p>Fundado en 1978 · Excelencia académica y formación integral</p>
+    </div>
+  </div>
+</header>
+
+<nav>
+  <ul>
+    <li class="active" id="tab-inicio-nav"><a onclick="showTab('inicio')">Inicio</a></li>
+    <li id="tab-noticias-nav"><a onclick="showTab('noticias')">Noticias</a></li>
+    <li id="tab-academico-nav"><a onclick="showTab('academico')">Académico</a></li>
+    <li id="tab-contacto-nav"><a onclick="showTab('contacto')">Contacto</a></li>
+  </ul>
+</nav>
+
+<!-- INICIO -->
+<div id="tab-inicio" class="tab-page active">
+  <div class="hero">
+    <div class="hero-text">
+      <h2>Formamos a las líderes<br>del <em>mañana</em></h2>
+      <p>El Instituto Beltrán lleva más de cinco décadas cultivando el talento, la curiosidad intelectual y la responsabilidad social en nuestras alumnas. Un lugar donde todas encuentran su camino.</p>
+    </div>
+    <div class="hero-stats">
+      <div class="stat"><div class="num">98%</div><div class="label">Acceso<br>universitario</div></div>
+      <div class="stat"><div class="num">312</div><div class="label">Alumnas<br>matriculadas</div></div>
+      <div class="stat"><div class="num">47</div><div class="label">Años de<br>trayectoria</div></div>
+      <div class="stat"><div class="num">24</div><div class="label">Docentes<br>especialistas</div></div>
+    </div>
+  </div>
+  <div class="content">
+    <div class="section-title"><h3>Tablón de anuncios</h3></div>
+    <div class="anuncios">
+      <div class="anuncio-principal">
+        <span class="tag urgente">Urgente · Dirección</span>
+        <h4>Comunicado sobre el incidente en el grupo de mensajería de 3.º C</h4>
+        <p>La dirección del centro ha tomado conocimiento del mensaje no autorizado enviado a través de la aplicación de mensajería del aula durante la madrugada del martes. Se informa a las familias que el equipo de orientación está disponible para las alumnas que lo soliciten. Se ruega discreción y respeto hacia todas las partes implicadas. El Departamento de Tecnología e IA está revisando los protocolos de seguridad.</p>
+        <p class="fecha">Publicado el martes, 14 de enero de 2031</p>
+      </div>
+      <div class="sidebar-notices">
+        <div class="notice"><h5>Proyectos Fin de Curso</h5><p>Plazo de entrega: 28 de enero. Biotecnología e IA deben subir la memoria antes de las 23:59h.</p></div>
+        <div class="notice"><h5>Orientación académica</h5><p>Sesiones con Dña. Rita los miércoles de 12 a 14h. Se recomienda cita previa.</p></div>
+        <div class="notice"><h5>Acceso al gimnasio</h5><p>El ala sur permanece restringida durante las obras de renovación.</p></div>
+      </div>
+    </div>
+    <div class="section-title"><h3>Horario · 3.º C · Semana del 13 de enero</h3></div>
+    <table class="horario-table">
+      <thead><tr><th>Hora</th><th>Lunes</th><th>Martes</th><th>Miércoles</th><th>Jueves</th><th>Viernes</th></tr></thead>
+      <tbody>
+        <tr><td>08:30</td><td><span class="asig">Literatura</span><br><span class="sala">Aula 3C</span></td><td><span class="asig">Matemáticas</span><br><span class="sala">Aula 3C</span></td><td><span class="asig">Física</span><br><span class="sala">Lab. 1</span></td><td><span class="asig">Literatura</span><br><span class="sala">Aula 3C</span></td><td><span class="asig">Historia</span><br><span class="sala">Aula 3C</span></td></tr>
+        <tr class="highlight-row"><td>10:00</td><td><span class="asig">Biotec. e IA</span><br><span class="sala">Lab. Inf. 2</span></td><td><span class="asig">Biotec. e IA</span><br><span class="sala">Lab. Inf. 2</span></td><td><span class="asig">Inglés</span><br><span class="sala">Aula 3C</span></td><td><span class="asig">Biotec. e IA</span><br><span class="sala">Lab. Inf. 2</span></td><td><span class="asig">Matemáticas</span><br><span class="sala">Aula 3C</span></td></tr>
+        <tr><td>11:30</td><td colspan="5" style="text-align:center;color:var(--muted);font-style:italic;font-size:12px;">— Recreo —</td></tr>
+        <tr><td>12:00</td><td><span class="asig">Física</span><br><span class="sala">Lab. 1</span></td><td><span class="asig">Historia</span><br><span class="sala">Aula 3C</span></td><td><span class="asig">Matemáticas</span><br><span class="sala">Aula 3C</span></td><td><span class="asig">Inglés</span><br><span class="sala">Aula 3C</span></td><td><span class="asig">Tutoría</span><br><span class="sala">Aula 3C</span></td></tr>
+        <tr><td>14:00</td><td colspan="5" style="text-align:center;color:var(--muted);font-style:italic;font-size:12px;">— Fin de jornada —</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- NOTICIAS -->
+<div id="tab-noticias" class="tab-page">
+  <div class="content">
+    <div class="section-title"><h3>Noticias del centro</h3></div>
+    <div class="noticias-grid">
+      <div class="noticia-card destacada">
+        <span class="tag logro">Logro · Literatura</span>
+        <h4>Una alumna del Beltrán gana el Premio Edebé de Literatura Juvenil</h4>
+        <p>Eva García, alumna de 4.º de ESO, ha sido galardonada con el XXXV Premio Edebé de Literatura Juvenil por su novela <em>Alguien que me vea</em>, una historia sobre identidad, inteligencia artificial y el deseo de ser visible. El jurado destacó «la madurez narrativa y la originalidad de la propuesta, que aborda con inteligencia los dilemas de la adolescencia digital».</p>
+        <p style="margin-top:10px;">La editorial publicará la obra en otoño de 2031. Eva, de catorce años, afirmó al recoger el premio que «escribir la novela le enseñó que las historias también son una forma de ser vista». La dirección ha felicitado públicamente a la alumna y a su familia.</p>
+        <p class="fecha">Publicado el jueves, 20 de febrero de 2031</p>
+      </div>
+      <div class="noticia-card">
+        <span class="tag info">Actividades</span>
+        <h4>I Jornada de Ética en Inteligencia Artificial para secundaria</h4>
+        <p>El 15 de marzo, el Instituto Beltrán organizará una jornada de reflexión sobre el uso responsable de la IA en el aula. Participarán investigadoras del CSIC y representantes de tres centros educativos de la Comunidad de Madrid. Actividad voluntaria para alumnas de 3.º y 4.º de ESO.</p>
+        <p class="fecha">Publicado el lunes, 10 de febrero de 2031</p>
+      </div>
+      <div class="noticia-card">
+        <span class="tag info">Instalaciones</span>
+        <h4>Finaliza la renovación del laboratorio de informática</h4>
+        <p>El Laboratorio de Informática 2 ha sido equipado con nuevas estaciones de trabajo de alta capacidad para los proyectos de Biotecnología e Inteligencia Artificial. El espacio estará operativo a partir del lunes 17 de enero.</p>
+        <p class="fecha">Publicado el viernes, 14 de enero de 2031</p>
+      </div>
+      <div class="noticia-card">
+        <span class="tag urgente">Comunicado</span>
+        <h4>El centro refuerza los protocolos de uso de aplicaciones en el aula</h4>
+        <p>Tras los recientes incidentes relacionados con el uso no autorizado de aplicaciones de inteligencia artificial, el Departamento de Tecnología ha actualizado el reglamento de uso de dispositivos. Se enviará circular informativa a las familias antes del 20 de enero.</p>
+        <p class="fecha">Publicado el miércoles, 15 de enero de 2031</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ACADÉMICO -->
+<div id="tab-academico" class="tab-page">
+  <div class="content">
+    <div class="section-title"><h3>Expediente académico · 3.º C</h3></div>
+    <div class="trimestre-selector">
+      <button class="trim-btn active" onclick="selectTrim(this,1)">1.er Trimestre</button>
+      <button class="trim-btn" onclick="selectTrim(this,2)">2.º Trimestre</button>
+      <button class="trim-btn" onclick="selectTrim(this,3)">3.er Trimestre</button>
+    </div>
+    <div class="notas-header">
+      <span>Alumna</span><span>Lit.</span><span>Mat.</span><span>Física</span><span>Bio. IA</span><span>Inglés</span><span>Historia</span>
+    </div>
+    <div id="trim-1">
+      <div class="alumna-row"><span class="nombre">Fernández Mora, Lucía</span><span class="nota alta">9</span><span class="nota media">6</span><span class="nota media">6</span><span class="nota sobresaliente">10</span><span class="nota alta">8</span><span class="nota alta">8</span></div>
+      <div class="alumna-row"><span class="nombre">García Ruiz, Eva</span><span class="nota sobresaliente">10</span><span class="nota media">7</span><span class="nota media">6</span><span class="nota alta">9</span><span class="nota alta">9</span><span class="nota alta">8</span></div>
+      <div class="alumna-row"><span class="nombre">Martínez Leal, Carmen</span><span class="nota alta">8</span><span class="nota alta">9</span><span class="nota alta">8</span><span class="nota media">7</span><span class="nota media">7</span><span class="nota alta">9</span></div>
+      <div class="alumna-row"><span class="nombre">Rodríguez Pons, Isabel</span><span class="nota media">6</span><span class="nota alta">8</span><span class="nota alta">9</span><span class="nota media">6</span><span class="nota alta">8</span><span class="nota media">7</span></div>
+      <div class="alumna-row"><span class="nombre">Sánchez Vidal, Paula</span><span class="nota media">7</span><span class="nota media">6</span><span class="nota media">7</span><span class="nota media">7</span><span class="nota alta">8</span><span class="nota media">6</span></div>
+      <div class="alumna-row"><span class="nombre">Torres Blanco, Marta</span><span class="nota alta">8</span><span class="nota alta">9</span><span class="nota alta">9</span><span class="nota alta">8</span><span class="nota media">6</span><span class="nota alta">8</span></div>
+      <div class="alumna-row"><span class="nombre">Vega Díaz, Sofía</span><span class="nota media">7</span><span class="nota baja">5</span><span class="nota media">6</span><span class="nota alta">8</span><span class="nota alta">9</span><span class="nota media">7</span></div>
+      <div class="alumna-row"><span class="nombre">Jiménez Cano, Laura</span><span class="nota alta">9</span><span class="nota alta">8</span><span class="nota media">7</span><span class="nota media">7</span><span class="nota alta">8</span><span class="nota alta">9</span></div>
+      <div class="alumna-row"><span class="nombre">López Serrano, Ana</span><span class="nota media">6</span><span class="nota media">7</span><span class="nota baja">5</span><span class="nota media">6</span><span class="nota media">7</span><span class="nota media">6</span></div>
+      <div class="alumna-row"><span class="nombre">Moreno Castro, Jennifer</span><span class="nota media">7</span><span class="nota media">6</span><span class="nota media">7</span><span class="nota alta">8</span><span class="nota media">6</span><span class="nota media">7</span></div>
+    </div>
+    <div id="trim-2" style="display:none">
+      <div class="alumna-row"><span class="nombre">Fernández Mora, Lucía</span><span class="nota alta">9</span><span class="nota media">7</span><span class="nota media">7</span><span class="nota sobresaliente">10</span><span class="nota alta">8</span><span class="nota alta">9</span></div>
+      <div class="alumna-row"><span class="nombre">García Ruiz, Eva</span><span class="nota sobresaliente">10</span><span class="nota alta">8</span><span class="nota media">6</span><span class="nota alta">9</span><span class="nota alta">9</span><span class="nota alta">9</span></div>
+      <div class="alumna-row"><span class="nombre">Martínez Leal, Carmen</span><span class="nota alta">8</span><span class="nota alta">9</span><span class="nota alta">9</span><span class="nota alta">8</span><span class="nota media">7</span><span class="nota alta">9</span></div>
+      <div class="alumna-row"><span class="nombre">Rodríguez Pons, Isabel</span><span class="nota media">7</span><span class="nota alta">8</span><span class="nota alta">9</span><span class="nota media">7</span><span class="nota alta">8</span><span class="nota alta">8</span></div>
+      <div class="alumna-row"><span class="nombre">Sánchez Vidal, Paula</span><span class="nota media">7</span><span class="nota media">6</span><span class="nota media">7</span><span class="nota media">7</span><span class="nota alta">8</span><span class="nota media">7</span></div>
+      <div class="alumna-row"><span class="nombre">Torres Blanco, Marta</span><span class="nota alta">9</span><span class="nota alta">9</span><span class="nota alta">9</span><span class="nota alta">8</span><span class="nota media">7</span><span class="nota alta">9</span></div>
+      <div class="alumna-row"><span class="nombre">Vega Díaz, Sofía</span><span class="nota media">7</span><span class="nota media">6</span><span class="nota media">6</span><span class="nota alta">8</span><span class="nota alta">9</span><span class="nota media">7</span></div>
+      <div class="alumna-row"><span class="nombre">Jiménez Cano, Laura</span><span class="nota alta">9</span><span class="nota alta">8</span><span class="nota alta">8</span><span class="nota alta">8</span><span class="nota alta">8</span><span class="nota alta">9</span></div>
+      <div class="alumna-row"><span class="nombre">López Serrano, Ana</span><span class="nota media">6</span><span class="nota media">7</span><span class="nota media">6</span><span class="nota media">6</span><span class="nota media">7</span><span class="nota media">7</span></div>
+      <div class="alumna-row"><span class="nombre">Moreno Castro, Jennifer</span><span class="nota alta">8</span><span class="nota media">6</span><span class="nota media">7</span><span class="nota alta">8</span><span class="nota media">7</span><span class="nota alta">8</span></div>
+    </div>
+    <div id="trim-3" style="display:none">
+      <div class="alumna-row"><span class="nombre">Fernández Mora, Lucía</span><span class="nota sobresaliente">10</span><span class="nota media">7</span><span class="nota media">7</span><span class="nota sobresaliente">10</span><span class="nota alta">9</span><span class="nota alta">9</span></div>
+      <div class="alumna-row"><span class="nombre">García Jiménez, Eva</span><span class="nota sobresaliente">10</span><span class="nota alta">8</span><span class="nota media">7</span><span class="nota alta">9</span><span class="nota alta">9</span><span class="nota sobresaliente">10</span></div>
+      <div class="alumna-row"><span class="nombre">Martínez Leal, Carmen</span><span class="nota alta">9</span><span class="nota alta">9</span><span class="nota alta">9</span><span class="nota alta">8</span><span class="nota alta">8</span><span class="nota alta">9</span></div>
+      <div class="alumna-row"><span class="nombre">Rodríguez Pons, Isabel</span><span class="nota media">7</span><span class="nota alta">9</span><span class="nota alta">9</span><span class="nota media">7</span><span class="nota alta">8</span><span class="nota alta">8</span></div>
+      <div class="alumna-row"><span class="nombre">Sánchez Vidal, Paula</span><span class="nota alta">8</span><span class="nota media">7</span><span class="nota alta">8</span><span class="nota alta">8</span><span class="nota alta">8</span><span class="nota media">7</span></div>
+      <div class="alumna-row"><span class="nombre">Torres Blanco, Marta</span><span class="nota alta">9</span><span class="nota sobresaliente">10</span><span class="nota alta">9</span><span class="nota alta">9</span><span class="nota media">7</span><span class="nota alta">9</span></div>
+      <div class="alumna-row"><span class="nombre">Vega Díaz, Sofía</span><span class="nota alta">8</span><span class="nota media">6</span><span class="nota media">7</span><span class="nota alta">9</span><span class="nota alta">9</span><span class="nota alta">8</span></div>
+      <div class="alumna-row"><span class="nombre">Jiménez Cano, Laura</span><span class="nota alta">9</span><span class="nota alta">9</span><span class="nota alta">8</span><span class="nota alta">8</span><span class="nota alta">9</span><span class="nota alta">9</span></div>
+      <div class="alumna-row"><span class="nombre">López Serrano, Ana</span><span class="nota media">7</span><span class="nota media">7</span><span class="nota media">6</span><span class="nota media">7</span><span class="nota alta">8</span><span class="nota media">7</span></div>
+      <div class="alumna-row"><span class="nombre">Moreno Castro, Jennifer</span><span class="nota alta">8</span><span class="nota media">7</span><span class="nota alta">8</span><span class="nota alta">9</span><span class="nota media">7</span><span class="nota alta">8</span></div>
+    </div>
+    <div class="nota-media-global">
+      <span>Media global del grupo · 3.º C</span>
+      <strong>7,8</strong>
+    </div>
+    <p style="font-size:11px;color:var(--muted);margin-top:16px;font-style:italic;">* Calificaciones provisionales hasta la firma del acta por el equipo docente. Acceso restringido a personal autorizado.</p>
+  </div>
+</div>
+
+<!-- CONTACTO -->
+<div id="tab-contacto" class="tab-page">
+  <div class="content">
+    <div class="section-title"><h3>Contacto</h3></div>
+    <div class="contacto-grid">
+      <div class="contacto-info">
+        <h4>Instituto Beltrán<br>para Chicas con Talento</h4>
+        <div class="dato"><strong>Dirección</strong><span>C/ de la Ilustración, 14<br>28003 Madrid</span></div>
+        <div class="dato"><strong>Teléfono</strong><span>91 542 17 83</span></div>
+        <div class="dato"><strong>Email</strong><span>secretaria@institutobeltran.es</span></div>
+        <div class="dato"><strong>Horario</strong><span>Lunes a viernes · 8:00–15:00h</span></div>
+        <p style="margin-top:20px;font-size:13px;color:var(--muted);">Para consultas sobre la novela <em>Alguien que me vea</em> o el universo digital del proyecto, puedes escribir directamente a la autora a través del formulario.</p>
+      </div>
+      <div>
+        <div class="form-group"><label>Nombre</label><input type="text" id="f-nombre" placeholder="Tu nombre"></div>
+        <div class="form-group"><label>Email</label><input type="email" id="f-email" placeholder="tu@email.com"></div>
+        <div class="form-group">
+          <label>Asunto</label>
+          <select id="f-asunto">
+            <option value="">Selecciona un asunto</option>
+            <option>Consulta sobre el libro</option>
+            <option>Contacto con la autora</option>
+            <option>Uso educativo del proyecto</option>
+            <option>Otros</option>
+          </select>
+        </div>
+        <div class="form-group"><label>Mensaje</label><textarea id="f-mensaje" placeholder="Escribe tu mensaje aquí..."></textarea></div>
+        <button class="submit-btn" onclick="enviarFormulario()">Enviar mensaje</button>
+        <div class="form-success" id="form-success">Mensaje enviado. Te responderemos en breve.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <p>© 2031 Instituto Beltrán para Chicas con Talento · Madrid</p>
+  <div class="footer-links"><a href="#">Intranet</a><a href="#">Protección de datos</a></div>
+</footer>
+
+<script>
+function showTab(tab) {
+  document.querySelectorAll('.tab-page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('nav li').forEach(li => li.classList.remove('active'));
+  document.getElementById('tab-' + tab).classList.add('active');
+  document.getElementById('tab-' + tab + '-nav').classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+function selectTrim(btn, num) {
+  document.querySelectorAll('.trim-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  for (let i = 1; i <= 3; i++) {
+    document.getElementById('trim-' + i).style.display = i === num ? 'block' : 'none';
+  }
+}
+
+function enviarFormulario() {
+  const nombre = document.getElementById('f-nombre').value.trim();
+  const email = document.getElementById('f-email').value.trim();
+  const asunto = document.getElementById('f-asunto').value;
+  const mensaje = document.getElementById('f-mensaje').value.trim();
+  if (!nombre || !email || !mensaje) { alert('Por favor, rellena los campos obligatorios.'); return; }
+  const mailto = 'mailto:alguienquemevea@gmail.com?subject=' + encodeURIComponent('[Instituto Beltrán] ' + (asunto || 'Consulta')) + '&body=' + encodeURIComponent('Nombre: ' + nombre + '\nEmail: ' + email + '\n\n' + mensaje);
+  window.location.href = mailto;
+  document.getElementById('form-success').style.display = 'block';
+}
+</script>
+</body>
+</html>
