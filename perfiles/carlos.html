@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>@carlositb_</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700&family=Syne+Mono&family=Inter:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #f0f4f8;
+    --surface: #ffffff;
+    --ink: #0d1117;
+    --muted: #6b7280;
+    --border: #e2e8f0;
+    --accent: #3b6fd4;
+    --accent-light: #ebf2ff;
+    --text: #1e293b;
+    --space: #0a0e1a;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    font-weight: 300;
+    min-height: 100vh;
+  }
+
+  /* Top bar */
+  .topbar {
+    background: var(--space);
+    padding: 12px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+
+  .topbar-brand {
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.8);
+  }
+
+  .topbar-link {
+    font-family: 'Syne Mono', monospace;
+    font-size: 11px;
+    color: rgba(255,255,255,0.4);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .topbar-link:hover { color: #7aabff; }
+
+  /* Profile */
+  .profile-wrap {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 32px 20px 0;
+  }
+
+  .profile-top {
+    display: flex;
+    gap: 32px;
+    align-items: flex-start;
+    margin-bottom: 24px;
+  }
+
+  .avatar {
+    width: 86px;
+    height: 86px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #1a2a4a, #3b6fd4, #6a9ff0);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Syne', sans-serif;
+    font-size: 32px;
+    font-weight: 700;
+    color: white;
+    flex-shrink: 0;
+    position: relative;
+  }
+
+  .avatar::after {
+    content: '';
+    position: absolute;
+    inset: -3px;
+    border-radius: 50%;
+    border: 2px solid var(--accent);
+    opacity: 0.4;
+  }
+
+  .profile-info { flex: 1; }
+
+  .profile-handle {
+    font-family: 'Syne Mono', monospace;
+    font-size: 18px;
+    color: var(--ink);
+    margin-bottom: 4px;
+  }
+
+  .profile-name {
+    font-size: 13px;
+    color: var(--muted);
+    margin-bottom: 12px;
+  }
+
+  .stats-row {
+    display: flex;
+    gap: 24px;
+    margin-bottom: 14px;
+  }
+
+  .stat-item { text-align: center; }
+  .stat-item .n { font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 700; display: block; color: var(--ink); }
+  .stat-item .l { font-size: 11px; color: var(--muted); }
+
+  .bio {
+    font-size: 13px;
+    line-height: 1.65;
+    color: var(--text);
+    margin-bottom: 8px;
+  }
+
+  .follow-btn {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 8px 28px;
+    background: var(--accent);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-family: 'Syne', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: default;
+    letter-spacing: 0.03em;
+  }
+
+  /* Highlights */
+  .highlights {
+    display: flex;
+    gap: 16px;
+    padding: 20px 0;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 24px;
+    overflow-x: auto;
+  }
+
+  .highlight {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    flex-shrink: 0;
+  }
+
+  .highlight-circle {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    border: 1.5px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    background: var(--surface);
+  }
+
+  .highlight span {
+    font-size: 10px;
+    color: var(--muted);
+    text-align: center;
+    max-width: 56px;
+  }
+
+  /* Posts */
+  .posts-label {
+    font-family: 'Syne Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .posts-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+  .posts-feed {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin-bottom: 40px;
+  }
+
+  .post {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-bottom: none;
+    padding: 20px;
+  }
+
+  .post:first-child { border-radius: 8px 8px 0 0; }
+  .post:last-child { border-bottom: 1px solid var(--border); border-radius: 0 0 8px 8px; }
+
+  .post-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+
+  .post-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #1a2a4a, #3b6fd4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: white;
+    flex-shrink: 0;
+  }
+
+  .post-meta { flex: 1; }
+  .post-meta .handle { font-size: 12px; font-weight: 500; color: var(--ink); font-family: 'Syne', sans-serif; }
+  .post-meta .time { font-family: 'Syne Mono', monospace; font-size: 10px; color: var(--muted); }
+
+  .post-quote {
+    background: var(--accent-light);
+    border-left: 3px solid var(--accent);
+    padding: 14px 16px;
+    margin-bottom: 12px;
+    border-radius: 0 4px 4px 0;
+  }
+
+  .post-quote p {
+    font-size: 14px;
+    line-height: 1.65;
+    color: var(--ink);
+  }
+
+  .post-quote .quote-source {
+    font-family: 'Syne Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+    margin-top: 8px;
+    display: block;
+  }
+
+  .post-text {
+    font-size: 13px;
+    line-height: 1.65;
+    color: var(--text);
+    margin-bottom: 12px;
+  }
+
+  .post-actions {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+  }
+
+  .post-action {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-family: 'Syne Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    cursor: default;
+  }
+
+  .post-action svg { width: 14px; height: 14px; }
+
+  /* Space card */
+  .space-card {
+    background: linear-gradient(135deg, var(--space), #0d1f3a);
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 12px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .space-card::before {
+    content: '✦';
+    position: absolute;
+    right: 16px;
+    top: 12px;
+    font-size: 20px;
+    color: rgba(255,255,255,0.1);
+  }
+
+  .space-card p {
+    font-size: 13px;
+    color: rgba(255,255,255,0.7);
+    line-height: 1.6;
+  }
+
+  .space-card .space-label {
+    font-family: 'Syne Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #7aabff;
+    margin-bottom: 8px;
+    display: block;
+  }
+
+  /* Lucy comment */
+  .lucy-comment {
+    background: linear-gradient(135deg, #0e0a1a, #1a1030);
+    border-radius: 8px;
+    padding: 16px 18px;
+    margin: 12px 0 0;
+    display: flex;
+    gap: 10px;
+  }
+
+  .lucy-avatar-small {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #5a3aaa, #9a6aee);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Syne Mono', monospace;
+    font-size: 11px;
+    color: white;
+    flex-shrink: 0;
+  }
+
+  .lucy-comment-body .lucy-handle { font-size: 11px; color: #c8a8ff; font-family: 'Syne Mono', monospace; margin-bottom: 3px; }
+  .lucy-comment-body p { font-size: 12px; color: rgba(255,255,255,0.65); font-style: italic; line-height: 1.55; }
+  .lucy-comment-body .deleted { font-size: 10px; color: rgba(255,255,255,0.3); margin-top: 4px; font-family: 'Syne Mono', monospace; }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <span class="topbar-brand">Alguien que me vea</span>
+  <a class="topbar-link" href="../perfiles/lucia.html">→ ver @luciaf_invisible</a>
+</div>
+
+<div class="profile-wrap">
+
+  <div class="profile-top">
+    <div class="avatar">C</div>
+    <div class="profile-info">
+      <div class="profile-handle">@carlositb_</div>
+      <div class="profile-name">Carlos Ibáñez · 14 años · Madrid</div>
+      <div class="stats-row">
+        <div class="stat-item"><span class="n">67</span><span class="l">posts</span></div>
+        <div class="stat-item"><span class="n">243</span><span class="l">seguidores</span></div>
+        <div class="stat-item"><span class="n">112</span><span class="l">siguiendo</span></div>
+      </div>
+      <p class="bio">Futuro astronauta (o eso dicen mis estrellas) 🌌<br>Mi padre preferiría que fuera físico. Mi gata preferiría que no me fuera nunca.<br>La Gorda > la NASA</p>
+      <button class="follow-btn">Seguir</button>
+    </div>
+  </div>
+
+  <div class="highlights">
+    <div class="highlight"><div class="highlight-circle">🌌</div><span>espacio</span></div>
+    <div class="highlight"><div class="highlight-circle">🐱</div><span>la Gorda</span></div>
+    <div class="highlight"><div class="highlight-circle">🍪</div><span>galletas</span></div>
+    <div class="highlight"><div class="highlight-circle">🌃</div><span>azotea</span></div>
+    <div class="highlight"><div class="highlight-circle">🎵</div><span>spotify</span></div>
+  </div>
+
+  <div class="posts-label">Publicaciones recientes</div>
+
+  <div class="posts-feed">
+
+    <div class="post">
+      <div class="post-header">
+        <div class="post-avatar">C</div>
+        <div class="post-meta"><div class="handle">carlositb_</div><div class="time">hace 1 día</div></div>
+      </div>
+      <div class="post-quote">
+        <p>Por cierto, mi nombre es Carlos. Tengo catorce años y, aunque a mi padre le encantaría que siguiera sus pasos y me convirtiera en un triste profesor de Física como él, quiero ser astronauta. No hay nada más que decir al respecto.</p>
+        <span class="quote-source">— Alguien que me vea, cap. 3</span>
+      </div>
+      <p class="post-text">lo sigo pensando. no hay nada más que decir.</p>
+      <div class="post-actions">
+        <span class="post-action"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>182</span>
+        <span class="post-action"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>24</span>
+      </div>
+    </div>
+
+    <div class="post">
+      <div class="post-header">
+        <div class="post-avatar">C</div>
+        <div class="post-meta"><div class="handle">carlositb_</div><div class="time">hace 3 días</div></div>
+      </div>
+      <div class="post-quote">
+        <p>Mientras yo disfrutaba de varias imágenes de agujeros negros, coloridas nebulosas y estrellas alucinantes, la Gorda empezó a amasar mis michelines, como si yo fuera un pan que estaba a punto de meter en el horno.</p>
+        <span class="quote-source">— Alguien que me vea, cap. 3</span>
+      </div>
+      <p class="post-text">esto es literalmente mi vida cada mañana. no me quejo.</p>
+      <div class="post-actions">
+        <span class="post-action"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>341</span>
+        <span class="post-action"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>47</span>
+      </div>
+    </div>
+
+    <div class="post">
+      <div class="post-header">
+        <div class="post-avatar">C</div>
+        <div class="post-meta"><div class="handle">carlositb_</div><div class="time">hace 5 días</div></div>
+      </div>
+      <div class="space-card">
+        <span class="space-label">dato espacial del día</span>
+        <p>un agujero negro del tamaño de una moneda tendría la masa de la Tierra. la Gorda pesa 4,2 kg. no sé a dónde quiero llegar con esto.</p>
+      </div>
+      <p class="post-text">física con mi padre: 0/10. física con nebulosas a las 7am: 10/10.</p>
+      <div class="post-actions">
+        <span class="post-action"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>128</span>
+        <span class="post-action"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>19</span>
+      </div>
+    </div>
+
+    <div class="post">
+      <div class="post-header">
+        <div class="post-avatar">C</div>
+        <div class="post-meta"><div class="handle">carlositb_</div><div class="time">hace 1 semana</div></div>
+      </div>
+      <p class="post-text">a veces el universo te manda señales muy confusas. hoy han sido veintitrés mensajes a las 7:20 de la mañana.</p>
+      <div class="post-actions">
+        <span class="post-action"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>89</span>
+        <span class="post-action"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>11</span>
+      </div>
+    </div>
+
+    <div class="post">
+      <div class="post-header">
+        <div class="post-avatar">C</div>
+        <div class="post-meta"><div class="handle">carlositb_</div><div class="time">hace 2 semanas</div></div>
+      </div>
+      <p class="post-text">le he dicho que me gustaba. no sé si ha salido bien. supongo que depende de qué "bien" significa exactamente.</p>
+      <div class="post-actions">
+        <span class="post-action"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>456</span>
+        <span class="post-action"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>73</span>
+      </div>
+      <div class="lucy-comment">
+        <div class="lucy-avatar-small">L</div>
+        <div class="lucy-comment-body">
+          <div class="lucy-handle">lucy_app</div>
+          <p>«Lo que te dijo Lucía era exactamente lo que yo habría dicho. Porque yo también era ella. Un poco.»</p>
+          <span class="deleted">mensaje eliminado por el usuario · hace 13 días</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+</body>
+</html>
