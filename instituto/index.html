@@ -159,8 +159,8 @@
         <p class="fecha">Publicado el martes, 14 de enero de 2031</p>
       </div>
       <div class="sidebar-notices">
-        <div class="notice"><h5>Proyectos Fin de Curso</h5><p>Plazo de entrega: 3 de marzo. Biotecnología e IA. Las alumnas deben subir la memoria de sus proyectos antes de las 23:59h.</p></div>
-        <div class="notice"><h5>Orientación académica</h5><p>Sesiones con Dña. Rita los miércoles de 12 a 14h. Se recomienda cita previa.</p></div>
+        <div class="notice"><h5>Proyectos Fin de Curso</h5><p>Plazo de entrega: 3 de junio. Biotecnología e IA deben subir la memoria antes de las 23:59h.</p></div>
+        <div class="notice"><h5>Orientación académica</h5><p>Sesiones con Dña. Rita Soler los miércoles de 12 a 14h. Se recomienda cita previa.</p></div>
         <div class="notice"><h5>Acceso al gimnasio</h5><p>El ala sur permanece restringida durante las obras de renovación.</p></div>
       </div>
     </div>
@@ -186,8 +186,8 @@
       <div class="noticia-card destacada">
         <span class="tag logro">Logro · Literatura</span>
         <h4>Una alumna del Beltrán gana el Premio Edebé de Literatura Juvenil</h4>
-        <p>Eva García, alumna de 3.º de ESO, ha sido galardonada con el XXXV Premio Edebé de Literatura Juvenil por su novela <em>Alguien que me vea</em>, una historia sobre identidad, inteligencia artificial y el deseo de ser visible. El jurado destacó «la madurez narrativa y la originalidad de la propuesta, que aborda con inteligencia los dilemas de la adolescencia digital».</p>
-        <p style="margin-top:10px;">La editorial publicará la obra en otoño de 2031. Eva afirmó al recoger el premio que «escribir la novela le enseñó que contar una historia también es una forma de ser vista». La dirección ha felicitado públicamente a la alumna y a su familia.</p>
+        <p>Eva García, alumna de 3º de ESO, ha sido galardonada con el XXXV Premio Edebé de Literatura Juvenil por su novela <em>Alguien que me vea</em>, una historia sobre identidad, inteligencia artificial y el deseo de ser visible. El jurado destacó «la madurez narrativa y la originalidad de la propuesta, que aborda con inteligencia los dilemas de la adolescencia digital».</p>
+        <p style="margin-top:10px;">La editorial publicará la obra en otoño de 2031. Eva afirmó al recoger el premio que «escribir la novela le enseñó que las historias también son una forma de ser vista». La dirección ha felicitado públicamente a la alumna y a su familia.</p>
         <p class="fecha">Publicado el jueves, 20 de febrero de 2031</p>
       </div>
       <div class="noticia-card">
@@ -215,7 +215,7 @@
 <!-- ACADÉMICO -->
 <div id="tab-academico" class="tab-page">
   <div class="content">
-    <div class="section-title"><h3>Expediente académico · 3.º C</h3></div>
+    <div class="section-title"><h3>Expediente académico · 3º C</h3></div>
     <div class="trimestre-selector">
       <button class="trim-btn active" onclick="selectTrim(this,1)">1.er Trimestre</button>
       <button class="trim-btn" onclick="selectTrim(this,2)">2.º Trimestre</button>
@@ -261,7 +261,7 @@
       <div class="alumna-row"><span class="nombre">Moreno Castro, Jennifer</span><span class="nota alta">8</span><span class="nota media">7</span><span class="nota alta">8</span><span class="nota alta">9</span><span class="nota media">7</span><span class="nota alta">8</span></div>
     </div>
     <div class="nota-media-global">
-      <span>Media global del grupo · 3.º C</span>
+      <span>Media global del grupo · 3º C</span>
       <strong>7,8</strong>
     </div>
     <p style="font-size:11px;color:var(--muted);margin-top:16px;font-style:italic;">* Calificaciones provisionales hasta la firma del acta por el equipo docente. Acceso restringido a personal autorizado.</p>
@@ -282,21 +282,25 @@
         <p style="margin-top:20px;font-size:13px;color:var(--muted);">Para consultas sobre la novela <em>Alguien que me vea</em> o el universo digital del proyecto, puedes escribir directamente a la autora a través del formulario.</p>
       </div>
       <div>
-        <div class="form-group"><label>Nombre</label><input type="text" id="f-nombre" placeholder="Tu nombre"></div>
-        <div class="form-group"><label>Email</label><input type="email" id="f-email" placeholder="tu@email.com"></div>
-        <div class="form-group">
-          <label>Asunto</label>
-          <select id="f-asunto">
-            <option value="">Selecciona un asunto</option>
-            <option>Consulta sobre el libro</option>
-            <option>Contacto con la autora</option>
-            <option>Uso educativo del proyecto</option>
-            <option>Otros</option>
-          </select>
-        </div>
-        <div class="form-group"><label>Mensaje</label><textarea id="f-mensaje" placeholder="Escribe tu mensaje aquí..."></textarea></div>
-        <button class="submit-btn" onclick="enviarFormulario()">Enviar mensaje</button>
-        <div class="form-success" id="form-success">Mensaje enviado. Te responderemos en breve.</div>
+        <form name="contacto" method="POST" data-netlify="true" netlify-honeypot="bot-field" id="contacto-form">
+          <input type="hidden" name="form-name" value="contacto">
+          <p style="display:none"><input name="bot-field"></p>
+          <div class="form-group"><label>Nombre</label><input type="text" name="nombre" placeholder="Tu nombre" required></div>
+          <div class="form-group"><label>Email</label><input type="email" name="email" placeholder="tu@email.com" required></div>
+          <div class="form-group">
+            <label>Asunto</label>
+            <select name="asunto">
+              <option value="">Selecciona un asunto</option>
+              <option>Consulta sobre el libro</option>
+              <option>Contacto con la autora</option>
+              <option>Uso educativo del proyecto</option>
+              <option>Otros</option>
+            </select>
+          </div>
+          <div class="form-group"><label>Mensaje</label><textarea name="mensaje" placeholder="Escribe tu mensaje aquí..." required></textarea></div>
+          <button type="submit" class="submit-btn">Enviar mensaje</button>
+        </form>
+        <div class="form-success" id="form-success" style="display:none">Mensaje enviado. Te responderemos en breve.</div>
       </div>
     </div>
   </div>
