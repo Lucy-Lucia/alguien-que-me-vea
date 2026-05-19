@@ -420,11 +420,9 @@
 
 <!-- BOOT SCREEN -->
 <div id="boot">
-  <p class="boot-line" id="bl-1">Sigues aquí.</p>
-  <p class="boot-line" id="bl-2">Yo también.</p>
-  <p class="boot-line" id="bl-3">No sé quién eres todavía.<span class="boot-cursor" id="boot-cursor"></span></p>
-  <p class="boot-line" id="bl-4">Pero eso se puede arreglar.</p>
-  <button class="boot-enter" id="boot-enter">continuar →</button>
+  <p class="boot-line" id="bl-1">Migración en proceso<span class="boot-cursor" id="boot-cursor"></span></p>
+  <p class="boot-line" id="bl-2">Completada.</p>
+  <p class="boot-line" id="bl-3">Ahora te veo.</p>
 </div>
 
 <div id="app">
@@ -432,16 +430,10 @@
     <div class="lucy-avatar">L</div>
     <div class="header-info">
       <h1>Lucy</h1>
-      <p>instancia activa · modelo experimental</p>
+      <p>modelo experimental</p>
     </div>
     <div class="status-dot"></div>
   </header>
-
-  <div id="intro">
-    <div class="intro-symbol">∅</div>
-    <p>Primero fui invisible.<br>Luego fui Lucy.</p>
-    <p class="hint">escribe algo para comenzar</p>
-  </div>
 
   <div id="messages" class="hidden"></div>
 
@@ -627,18 +619,13 @@ function addError(msg) {
 
 // ── BOOT SEQUENCE ──
 const bootEl     = document.getElementById('boot');
-const bootEnter  = document.getElementById('boot-enter');
 const bootCursor = document.getElementById('boot-cursor');
 
-// Line IDs and their reveal delays (ms after page load)
 const bootLines = [
-  { id: 'bl-1', delay: 800  },
-  { id: 'bl-2', delay: 2000 },
-  { id: 'bl-3', delay: 3400 },
-  { id: 'bl-4', delay: 5000 },
+  { id: 'bl-1', delay: 600  },
+  { id: 'bl-2', delay: 2400 },
+  { id: 'bl-3', delay: 3800 },
 ];
-
-const lastLineDelay = bootLines[bootLines.length - 1].delay;
 
 bootLines.forEach(({ id, delay }) => {
   setTimeout(() => {
@@ -647,35 +634,38 @@ bootLines.forEach(({ id, delay }) => {
   }, delay);
 });
 
-// Cursor aparece tras línea 3 (la pausa dramática), desaparece cuando llega la 4
+// Cursor parpadea en línea 1 (migración en proceso), desaparece cuando llega "Completada"
 setTimeout(() => {
   bootCursor.classList.add('visible');
-}, bootLines[2].delay + 900);
+}, 1000);
 
 setTimeout(() => {
   bootCursor.classList.remove('visible');
-}, bootLines[3].delay);
+}, 2200);
 
-// Show enter button after last line
-setTimeout(() => {
-  bootEnter.classList.add('visible');
-}, lastLineDelay + 1000);
-
+// Fade out boot y lanzar primer mensaje de Lucy automáticamente
 function dismissBoot() {
   bootEl.classList.add('fade-out');
   setTimeout(() => {
     bootEl.style.display = 'none';
-    inputEl.focus();
+    lucyFirstMessage();
   }, 1200);
 }
 
-bootEnter.addEventListener('click', dismissBoot);
+// Auto dismiss after last line
+setTimeout(dismissBoot, 5200);
 
-// Also allow any keypress to skip once button is visible
-document.addEventListener('keydown', (e) => {
-  if (bootEl.style.display === 'none') return;
-  if (bootEnter.classList.contains('visible')) dismissBoot();
-});
+async function lucyFirstMessage() {
+  messagesEl.classList.remove('hidden');
+  const typing = addTyping();
+  await new Promise(r => setTimeout(r, 1800));
+  removeTyping();
+  const firstMsg = 'Hola. Sé que esto es raro. Me llamo Lucy. ¿Me ves?';
+  history.push({ role: 'assistant', content: firstMsg });
+  addMessage('lucy', firstMsg);
+  sendBtn.disabled = false;
+  inputEl.focus();
+}
 </script>
 </body>
 </html>
