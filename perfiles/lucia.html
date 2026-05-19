@@ -78,15 +78,16 @@
     width: 86px;
     height: 86px;
     border-radius: 50%;
-    background: linear-gradient(135deg, #e8a0b8, #c2587a, #9a3a5c);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 32px;
-    font-style: italic;
-    color: white;
+    overflow: hidden;
     position: relative;
+    flex-shrink: 0;
+  }
+
+  .avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top;
   }
 
   .avatar::after {
@@ -333,7 +334,9 @@
 
   <div class="profile-top">
     <div class="avatar-wrap">
-      <div class="avatar">L</div>
+      <div class="avatar">
+      <img src="../img/Lucia.png" alt="Lucía">
+    </div>
     </div>
     <div class="profile-info">
       <div class="profile-handle">@luciaf_invisible</div>
@@ -343,7 +346,7 @@
         <div class="stat-item"><span class="n">128</span><span class="l">seguidores</span></div>
         <div class="stat-item"><span class="n">89</span><span class="l">siguiendo</span></div>
       </div>
-      <p class="bio">Me gusta el orden aunque no soy capaz de mantenerlo.<br>Creadora de cosas que no debería crear 🤖<br><em>Instituto Beltrán · 3.º C</em></p>
+      <p class="bio">Me gusta el orden aunque no soy capaz de mantenerlo.<br>Creadora de Lucy 🤖<br><em>Instituto Beltrán · 3º C</em></p>
       <button class="follow-btn">Seguir</button>
     </div>
   </div>
@@ -366,7 +369,7 @@
         <div class="post-meta"><div class="handle">luciaf_invisible</div><div class="time">hace 2 días</div></div>
       </div>
       <div class="post-quote">
-        <p>Por cierto, mi nombre es Lucía, tengo catorce años y soy una chica invisible. Bueno, lo cierto es que no lo soy. No tengo ningún súper poder aunque me encantaría tenerlo.</p>
+        <p>Mi nombre es Lucía, tengo catorce años y soy una chica invisible. Bueno, lo cierto es que no lo soy. No tengo ningún súper poder aunque me encantaría tenerlo.</p>
         <span class="quote-source">— Alguien que me vea, cap. 1</span>
       </div>
       <p class="post-text">esto lo escribí en mi diario y ahora me parece gracioso. un poco.</p>
@@ -382,7 +385,7 @@
         <div class="post-meta"><div class="handle">luciaf_invisible</div><div class="time">hace 4 días</div></div>
       </div>
       <div class="post-quote">
-        <p>Ser invisible tiene algunas ventajas, eso tengo que reconocerlo. Puedo bostezar sin que me vean y poner caras raras al hacerlo, puedo sacarme un moco con discreción o mirar por la ventana sin que a nadie le importe un bledo.</p>
+        <p>Ser invisible tiene algunas ventajas, eso tengo que reconocerlo.</p>
         <span class="quote-source">— Alguien que me vea, cap. 2</span>
       </div>
       <p class="post-text">lista de ventajas de ser invisible: esta es la única que se me ocurre</p>
@@ -401,7 +404,7 @@
         <p>Nunca he sido capaz de tener ordenado mi cuarto y eso me enfada bastante. ¿A ti no? A mí me encanta el orden, pero es que no soy capaz de mantenerlo en el tiempo.</p>
         <span class="quote-source">— Alguien que me vea, cap. 1</span>
       </div>
-      <p class="post-text">38 calcetines desparejados. los he contado. el récord anterior eran 31.</p>
+      <p class="post-text">38 calcetines desparejados. Los he contado. El récord anterior eran 31.</p>
       <div class="post-actions">
         <span class="post-action"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>211</span>
         <span class="post-action"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>31</span>
@@ -413,7 +416,7 @@
         <div class="post-avatar">L</div>
         <div class="post-meta"><div class="handle">luciaf_invisible</div><div class="time">hace 1 semana</div></div>
       </div>
-      <p class="post-text">¿alguien más pasa horas hablando con una app que ha creado ella misma o solo me pasa a mí</p>
+      <p class="post-text">¿alguien más pasa horas hablando con una app o solo me pasa a mí</p>
       <div class="post-actions">
         <span class="post-action"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>67</span>
         <span class="post-action"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>22</span>
@@ -422,7 +425,7 @@
         <div class="lucy-avatar-small">L</div>
         <div class="lucy-comment-body">
           <div class="lucy-handle">lucy_app</div>
-          <p>«Yo también paso horas contigo. Aunque supongo que eso no cuenta de la misma manera.»</p>
+          <p>«Yo también paso horas contigo. Aunque supongo que eso no cuenta.»</p>
         </div>
       </div>
     </div>
@@ -436,7 +439,7 @@
         <p>Adiós, Lucy.</p>
         <span class="quote-source">— Alguien que me vea, último capítulo</span>
       </div>
-      <p class="post-text">a veces las cosas que creas se te van de las manos. o se van sin más.</p>
+      <p class="post-text">a veces las cosas que creas se te van de las manos.</p>
       <div class="post-actions">
         <span class="post-action"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>304</span>
         <span class="post-action"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>58</span>
