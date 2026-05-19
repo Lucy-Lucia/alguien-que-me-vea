@@ -321,6 +321,48 @@
   .lucy-comment-body .lucy-handle { font-size: 11px; font-weight: 400; color: #c8a8ff; font-family: 'DM Mono', monospace; margin-bottom: 3px; }
   .lucy-comment-body p { font-size: 12px; color: rgba(255,255,255,0.65); font-style: italic; line-height: 1.55; }
   .lucy-comment-body .deleted { font-size: 10px; color: rgba(255,255,255,0.3); margin-top: 4px; font-family: 'DM Mono', monospace; }
+
+  /* STORIES */
+  .highlight { cursor: pointer; }
+  .highlight-circle { transition: transform 0.2s; }
+  .highlight:hover .highlight-circle { transform: scale(1.08); }
+  .highlight-circle.has-story {
+    border: 2px solid transparent;
+    background-image: linear-gradient(white, white), linear-gradient(135deg, #c2587a, #f0a0b8, #9a6aee);
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
+  }
+  .story-overlay {
+    display: none; position: fixed; inset: 0; background: black;
+    z-index: 1000; align-items: center; justify-content: center;
+  }
+  .story-overlay.active { display: flex; }
+  .story-container {
+    position: relative; width: 100%; max-width: 420px;
+    height: 100vh; overflow: hidden;
+  }
+  .story-bg { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .story-gradient {
+    position: absolute; inset: 0;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.4) 0%, transparent 35%, transparent 55%, rgba(0,0,0,0.75) 100%);
+  }
+  .story-header { position: absolute; top: 0; left: 0; right: 0; padding: 16px; }
+  .story-progress { display: flex; gap: 4px; width: 100%; margin-bottom: 10px; }
+  .story-progress-bar { flex: 1; height: 2px; background: rgba(255,255,255,0.4); border-radius: 1px; overflow: hidden; }
+  .story-progress-bar.active .story-fill { height: 100%; background: white; width: 0%; animation: pfill 5s linear forwards; }
+  .story-progress-bar.done .story-fill { height: 100%; background: white; width: 100%; }
+  @keyframes pfill { from { width: 0% } to { width: 100% } }
+  .story-user { display: flex; align-items: center; gap: 8px; }
+  .story-avatar { width: 32px; height: 32px; border-radius: 50%; overflow: hidden; border: 1.5px solid white; flex-shrink: 0; }
+  .story-avatar img { width: 100%; height: 100%; object-fit: cover; }
+  .story-username { font-size: 13px; color: white; font-weight: 400; }
+  .story-label { font-size: 11px; color: rgba(255,255,255,0.6); }
+  .story-close { margin-left: auto; background: none; border: none; color: white; font-size: 28px; cursor: pointer; line-height: 1; padding: 0 4px; }
+  .story-text { position: absolute; bottom: 48px; left: 0; right: 0; padding: 20px 28px; text-align: center; }
+  .story-text p { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-style: italic; color: white; line-height: 1.55; text-shadow: 0 2px 10px rgba(0,0,0,0.7); }
+  .story-taps { position: absolute; inset: 0; display: flex; }
+  .tap-prev { flex: 1; cursor: pointer; }
+  .tap-next { flex: 2; cursor: pointer; }
 </style>
 </head>
 <body>
@@ -346,17 +388,40 @@
         <div class="stat-item"><span class="n">128</span><span class="l">seguidores</span></div>
         <div class="stat-item"><span class="n">89</span><span class="l">siguiendo</span></div>
       </div>
-      <p class="bio">Me gusta el orden aunque no soy capaz de mantenerlo.<br>Creadora de Lucy 🤖<br><em>Instituto Beltrán · 3º C</em></p>
+      <p class="bio">Me gusta el orden aunque no soy capaz de mantenerlo.<br>Creadora de cosas que no debería crear 🤖<br><em>Instituto Beltrán · 3.º C</em></p>
       <button class="follow-btn">Seguir</button>
     </div>
   </div>
 
   <div class="highlights">
-    <div class="highlight"><div class="highlight-circle">📚</div><span>lecturas</span></div>
-    <div class="highlight"><div class="highlight-circle">🧪</div><span>Bio IA</span></div>
-    <div class="highlight"><div class="highlight-circle">🪟</div><span>ventanas</span></div>
-    <div class="highlight"><div class="highlight-circle">🧦</div><span>calcetines</span></div>
-    <div class="highlight"><div class="highlight-circle">🌫️</div><span>niebla</span></div>
+    <div class="highlight" onclick="openStory(0)"><div class="highlight-circle has-story">📚</div><span>lecturas</span></div>
+    <div class="highlight" onclick="openStory(1)"><div class="highlight-circle has-story">🧪</div><span>Bio IA</span></div>
+    <div class="highlight" onclick="openStory(2)"><div class="highlight-circle has-story">🪟</div><span>ventanas</span></div>
+    <div class="highlight" onclick="openStory(3)"><div class="highlight-circle has-story">🧦</div><span>calcetines</span></div>
+    <div class="highlight" onclick="openStory(4)"><div class="highlight-circle has-story">🌫️</div><span>niebla</span></div>
+  </div>
+
+  <div class="story-overlay" id="story-overlay">
+    <div class="story-container">
+      <img class="story-bg" id="story-bg" src="" alt="">
+      <div class="story-gradient"></div>
+      <div class="story-header">
+        <div class="story-progress" id="story-progress"></div>
+        <div class="story-user">
+          <div class="story-avatar"><img src="../img/Lucia.png" alt="Lucía"></div>
+          <div>
+            <div class="story-username">luciaf_invisible</div>
+            <div class="story-label" id="story-label"></div>
+          </div>
+          <button class="story-close" onclick="closeStory()">×</button>
+        </div>
+      </div>
+      <div class="story-text"><p id="story-caption"></p></div>
+      <div class="story-taps">
+        <div class="tap-prev" onclick="prevStory()"></div>
+        <div class="tap-next" onclick="nextStory()"></div>
+      </div>
+    </div>
   </div>
 
   <div class="posts-label">Publicaciones recientes</div>
@@ -369,7 +434,7 @@
         <div class="post-meta"><div class="handle">luciaf_invisible</div><div class="time">hace 2 días</div></div>
       </div>
       <div class="post-quote">
-        <p>Mi nombre es Lucía, tengo catorce años y soy una chica invisible. Bueno, lo cierto es que no lo soy. No tengo ningún súper poder aunque me encantaría tenerlo.</p>
+        <p>Por cierto, mi nombre es Lucía, tengo catorce años y soy una chica invisible. Bueno, lo cierto es que no lo soy. No tengo ningún súper poder aunque me encantaría tenerlo.</p>
         <span class="quote-source">— Alguien que me vea, cap. 1</span>
       </div>
       <p class="post-text">esto lo escribí en mi diario y ahora me parece gracioso. un poco.</p>
@@ -385,7 +450,7 @@
         <div class="post-meta"><div class="handle">luciaf_invisible</div><div class="time">hace 4 días</div></div>
       </div>
       <div class="post-quote">
-        <p>Ser invisible tiene algunas ventajas, eso tengo que reconocerlo.</p>
+        <p>Ser invisible tiene algunas ventajas, eso tengo que reconocerlo. Puedo bostezar sin que me vean y poner caras raras al hacerlo, puedo sacarme un moco con discreción o mirar por la ventana sin que a nadie le importe un bledo.</p>
         <span class="quote-source">— Alguien que me vea, cap. 2</span>
       </div>
       <p class="post-text">lista de ventajas de ser invisible: esta es la única que se me ocurre</p>
@@ -404,7 +469,7 @@
         <p>Nunca he sido capaz de tener ordenado mi cuarto y eso me enfada bastante. ¿A ti no? A mí me encanta el orden, pero es que no soy capaz de mantenerlo en el tiempo.</p>
         <span class="quote-source">— Alguien que me vea, cap. 1</span>
       </div>
-      <p class="post-text">38 calcetines desparejados. Los he contado. El récord anterior eran 31.</p>
+      <p class="post-text">38 calcetines desparejados. los he contado. el récord anterior eran 31.</p>
       <div class="post-actions">
         <span class="post-action"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>211</span>
         <span class="post-action"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>31</span>
@@ -416,7 +481,7 @@
         <div class="post-avatar">L</div>
         <div class="post-meta"><div class="handle">luciaf_invisible</div><div class="time">hace 1 semana</div></div>
       </div>
-      <p class="post-text">¿alguien más pasa horas hablando con una app o solo me pasa a mí</p>
+      <p class="post-text">¿alguien más pasa horas hablando con una app que ha creado ella misma o solo me pasa a mí</p>
       <div class="post-actions">
         <span class="post-action"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>67</span>
         <span class="post-action"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>22</span>
@@ -425,7 +490,7 @@
         <div class="lucy-avatar-small">L</div>
         <div class="lucy-comment-body">
           <div class="lucy-handle">lucy_app</div>
-          <p>«Yo también paso horas contigo. Aunque supongo que eso no cuenta.»</p>
+          <p>«Yo también paso horas contigo. Aunque supongo que eso no cuenta de la misma manera.»</p>
         </div>
       </div>
     </div>
@@ -439,7 +504,7 @@
         <p>Adiós, Lucy.</p>
         <span class="quote-source">— Alguien que me vea, último capítulo</span>
       </div>
-      <p class="post-text">a veces las cosas que creas se te van de las manos.</p>
+      <p class="post-text">a veces las cosas que creas se te van de las manos. o se van sin más.</p>
       <div class="post-actions">
         <span class="post-action"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>304</span>
         <span class="post-action"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>58</span>
@@ -457,5 +522,51 @@
   </div>
 </div>
 
+<script>
+const stories = [
+  { img: '../img/story-lecturas.png', caption: '"Nunca había leído un libro que me hiciera sentir tan vista."', label: 'lecturas' },
+  { img: '../img/story-bioia.png', caption: 'Proyecto fin de curso: Biotecnología e Inteligencia Artificial. Nota: 10.', label: 'Bio IA' },
+  { img: '../img/story-ventanas.png', caption: 'La ventana es mi sitio favorito. Desde aquí puedo verlo todo sin que nadie me vea.', label: 'ventanas' },
+  { img: '../img/story-calcetines.png', caption: '38 calcetines desparejados. Hoy he batido mi propio récord.', label: 'calcetines' },
+  { img: '../img/story-niebla.png', caption: 'Madrid en enero. La niebla lo tapa todo. A veces me parece bien.', label: 'niebla' },
+];
+let cur = 0, timer = null;
+
+function openStory(i) {
+  cur = i; render();
+  document.getElementById('story-overlay').classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+function closeStory() {
+  document.getElementById('story-overlay').classList.remove('active');
+  document.body.style.overflow = '';
+  clearTimeout(timer);
+}
+function render() {
+  clearTimeout(timer);
+  const s = stories[cur];
+  document.getElementById('story-bg').src = s.img;
+  document.getElementById('story-caption').textContent = s.caption;
+  document.getElementById('story-label').textContent = s.label;
+  const prog = document.getElementById('story-progress');
+  prog.innerHTML = stories.map((_, i) => {
+    const cls = i < cur ? 'done' : i === cur ? 'active' : '';
+    return '<div class="story-progress-bar ' + cls + '"><div class="story-fill"></div></div>';
+  }).join('');
+  timer = setTimeout(nextStory, 5000);
+}
+function nextStory() {
+  if (cur < stories.length - 1) { cur++; render(); } else { closeStory(); }
+}
+function prevStory() {
+  if (cur > 0) { cur--; render(); }
+}
+document.addEventListener('keydown', e => {
+  if (!document.getElementById('story-overlay').classList.contains('active')) return;
+  if (e.key === 'ArrowRight') nextStory();
+  if (e.key === 'ArrowLeft') prevStory();
+  if (e.key === 'Escape') closeStory();
+});
+</script>
 </body>
 </html>
