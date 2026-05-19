@@ -349,9 +349,9 @@
   .story-header { position: absolute; top: 0; left: 0; right: 0; padding: 16px; }
   .story-progress { display: flex; gap: 4px; width: 100%; margin-bottom: 10px; }
   .story-progress-bar { flex: 1; height: 2px; background: rgba(255,255,255,0.4); border-radius: 1px; overflow: hidden; }
-  .story-progress-bar.active .story-fill { height: 100%; background: white; width: 0%; animation: pfill 5s linear forwards; }
+  .story-progress-bar.active .story-fill { height: 100%; background: white; width: 100%; }
   .story-progress-bar.done .story-fill { height: 100%; background: white; width: 100%; }
-  @keyframes pfill { from { width: 0% } to { width: 100% } }
+
   .story-user { display: flex; align-items: center; gap: 8px; }
   .story-avatar { width: 32px; height: 32px; border-radius: 50%; overflow: hidden; border: 1.5px solid white; flex-shrink: 0; }
   .story-avatar img { width: 100%; height: 100%; object-fit: cover; }
@@ -553,7 +553,6 @@ function render() {
     const cls = i < cur ? 'done' : i === cur ? 'active' : '';
     return '<div class="story-progress-bar ' + cls + '"><div class="story-fill"></div></div>';
   }).join('');
-  timer = setTimeout(nextStory, 5000);
 }
 function nextStory() {
   if (cur < stories.length - 1) { cur++; render(); } else { closeStory(); }
